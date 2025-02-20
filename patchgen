@@ -1,0 +1,88 @@
+#!/bin/sh
+
+_pkgver=6.0
+_pkgrel=1
+source="https://github.com/pi-hole/web/archive/v$_pkgver.tar.gz"
+dira="web-$_pkgver"
+dirb="$dira.cust"
+
+_ssc="/tmp/sedcontrol"
+
+[[ -d $dira ]] && rm -r $dira
+[[ -d $dirb ]] && rm -r $dirb
+
+wget -q -nc -O admin-$_pkgver.tar.gz $source
+tar xf admin-$_pkgver.tar.gz
+cp -a $dira $dirb
+
+# no debug for us, right now
+#sed -n "/\-\- Generate debug log \-\-/w $_ssc" "$dirb"/scripts/pi-hole/php/sidebar.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: no debug for us, right now 1" && exit 1 ; fi
+#sed -i '/\-\- Generate debug log \-\-/,+5d' "$dirb"/scripts/pi-hole/php/sidebar.php
+
+# -----------------
+
+# FTL.php run location
+#sed -i "s|/run/pihole-FTL.port|/run/pihole-ftl/pihole-FTL.port|w $_ssc" "$dirb"/scripts/pi-hole/php/FTL.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: FTL.php run location 1" && exit 1 ; fi
+
+# -----------------
+
+# change log location in admin php interface
+#sed -i "s|/var/log/pihole/FTL.log|/run/log/pihole-ftl/pihole-FTL.log|w $_ssc" "$dirb"/scripts/pi-hole/php/tailLog.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: change log location in admin php interface 1" && exit 1 ; fi
+#sed -i "s|/var/log/pihole/pihole.log|/run/log/pihole/pihole.log|w $_ssc" "$dirb"/scripts/pi-hole/php/tailLog.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: change log location in admin php interface 2" && exit 1 ; fi
+
+# -----------------
+
+#sed -n "/\$core_current =.*$/w $_ssc" "$dirb"/scripts/pi-hole/php/update_checker.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: since we don't directly install from git... 1" && exit 1 ; fi
+#sed -i 's/\$core_current =.*$/\$core_current = "'"$_pkgver"'";/' "$dirb"/scripts/pi-hole/php/update_checker.php
+#sed -n "/\$web_current =.*$/w $_ssc" "$dirb"/scripts/pi-hole/php/update_checker.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: since we don't directly install from git... 2" && exit 1 ; fi
+#sed -i 's/\$web_current =.*$/\$web_current = "'"$_wwwpkgver"'";/' "$dirb"/scripts/pi-hole/php/update_checker.php
+#sed -n "/\$FTL_current =.*$/w $_ssc" "$dirb"/scripts/pi-hole/php/update_checker.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: since we don't directly install from git... 3" && exit 1 ; fi
+#sed -i 's/\$FTL_current =.*$/\$FTL_current = exec("pihole-FTL version");/' "$dirb"/scripts/pi-hole/php/update_checker.php
+
+#sed -i "s|/var/www/html/admin/|/srv/http/pihole/admin/|w $_ssc" "$dircoreb"/advanced/Scripts/version.sh
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: since we don't directly install from git... 4" && exit 1 ; fi
+
+# -----------------
+
+# web admin footer update setup
+#sed -i "s|\$coreUrl =.*$|\$coreUrl = 'https:\/\/aur.archlinux.org\/packages\/pi-hole-server';|w $_ssc" "$dirb"/scripts/pi-hole/php/update_checker.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: web admin footer update setup 1" && exit 1 ; fi
+#sed -i "s|\$webUrl =.*$|\$webUrl = 'https:\/\/aur.archlinux.org\/packages\/pi-hole-server';|w $_ssc" "$dirb"/scripts/pi-hole/php/update_checker.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: web admin footer update setup 2" && exit 1 ; fi
+#sed -i "s|\$ftlUrl =.*$|\$ftlUrl = 'https:\/\/aur.archlinux.org\/packages\/pi-hole-ftl';|w $_ssc" "$dirb"/scripts/pi-hole/php/update_checker.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: web admin footer update setup 3" && exit 1 ; fi
+
+#sed -i "s|\$coreUrl\.'/'\.rawurlencode(\$core_current)|\$coreUrl|w $_ssc" "$dirb"/scripts/pi-hole/php/update_checker.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: web admin footer update setup 4" && exit 1 ; fi
+#sed -i "s|\$webUrl\.'/'\.rawurlencode(\$web_current)|\$webUrl|w $_ssc" "$dirb"/scripts/pi-hole/php/update_checker.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: web admin footer update setup 5" && exit 1 ; fi
+#sed -i "s|\$ftlUrl\.'/'\.rawurlencode(\$FTL_current)|\$ftlUrl|w $_ssc" "$dirb"/scripts/pi-hole/php/update_checker.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: web admin footer update setup 6" && exit 1 ; fi
+#sed -i "s|\$dockerUrl\.'/'\.rawurlencode(\$docker_current)|\$dockerUrl|w $_ssc" "$dirb"/scripts/pi-hole/php/update_checker.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: web admin footer update setup 7" && exit 1 ; fi
+
+# -----------------
+
+# sudo pihole full path (php-fpm compatibility)
+#sed -i "s|'sudo pihole '|'sudo /usr/bin/pihole '|w $_ssc" "$dirb"/scripts/pi-hole/php/func.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: sudo pihole full path (php-fpm compatibility) 1" && exit 1 ; fi
+#sed -i "s|'sudo pihole|'sudo /usr/bin/pihole|w $_ssc" "$dirb"/scripts/pi-hole/php/queryads.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: sudo pihole full path (php-fpm compatibility) 2" && exit 1 ; fi
+#sed -i "s|'sudo pihole|'sudo /usr/bin/pihole|w $_ssc" "$dirb"/scripts/pi-hole/php/savesettings.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: sudo pihole full path (php-fpm compatibility) 3" && exit 1 ; fi
+#sed -i "s|'sudo pihole|'sudo /usr/bin/pihole|w $_ssc" "$dirb"/scripts/pi-hole/php/gravity.sh.php
+#if [ -s $_ssc ] ; then rm $_ssc ; else echo "   ==> Sed error: sudo pihole full path (php-fpm compatibility) 4" && exit 1 ; fi
+
+# -----------------
+
+diff -uprN $dira $dirb > arch-web-$_pkgver-$_pkgrel.patch
+
+git add arch-web-$_pkgver-$_pkgrel.patch
+git add patchgen
