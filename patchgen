@@ -1,6 +1,6 @@
 #!/bin/sh
 
-_pkgver=6.0
+_pkgver=6.0.1
 _pkgrel=1
 source="https://github.com/pi-hole/web/archive/v$_pkgver.tar.gz"
 dira="web-$_pkgver"
