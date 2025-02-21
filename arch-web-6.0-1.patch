@@ -1,6 +1,6 @@
 diff -uprN web-6.0/scripts/js/footer.js web-6.0.cust/scripts/js/footer.js
 --- web-6.0/scripts/js/footer.js	2025-02-18 18:19:35.000000000 +0100
-+++ web-6.0.cust/scripts/js/footer.js	2025-02-20 18:29:48.580723704 +0100
++++ web-6.0.cust/scripts/js/footer.js	2025-02-21 08:36:30.311057390 +0100
 @@ -498,7 +498,7 @@ function updateVersionInfo() {
          branch: version.core.local.branch,
          hash: version.core.local.hash,
