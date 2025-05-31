@@ -1,0 +1,30 @@
+diff -uprN web-6.2.1/scripts/js/footer.js web-6.2.1.cust/scripts/js/footer.js
+--- web-6.2.1/scripts/js/footer.js	2025-05-30 23:56:59.000000000 +0200
++++ web-6.2.1.cust/scripts/js/footer.js	2025-05-31 17:29:36.862813020 +0200
+@@ -477,7 +477,7 @@ function updateVersionInfo() {
+         branch: version.core.local.branch,
+         hash: version.core.local.hash,
+         hash_remote: version.core.remote.hash,
+-        url: "https://github.com/pi-hole/pi-hole/releases",
++        url: "https://aur.archlinux.org/packages/pi-hole-core",
+       },
+       {
+         name: "FTL",
+@@ -486,7 +486,7 @@ function updateVersionInfo() {
+         branch: version.ftl.local.branch,
+         hash: version.ftl.local.hash,
+         hash_remote: version.ftl.remote.hash,
+-        url: "https://github.com/pi-hole/FTL/releases",
++        url: "https://aur.archlinux.org/packages/pi-hole-ftl",
+       },
+       {
+         name: "Web interface",
+@@ -495,7 +495,7 @@ function updateVersionInfo() {
+         branch: version.web.local.branch,
+         hash: version.web.local.hash,
+         hash_remote: version.web.remote.hash,
+-        url: "https://github.com/pi-hole/web/releases",
++        url: "https://aur.archlinux.org/packages/pi-hole-web",
+       },
+     ];
+ 
